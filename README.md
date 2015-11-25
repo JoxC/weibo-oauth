@@ -40,7 +40,7 @@ const client = new OAuth('client_id', 'client_secret', 'redirect_uri')
 当多进程时，token需要全局维护，以下为保存token的接口。
 
 ```js
-const client = new OAuth('appid', 'secret', function (uid, callback) {
+const client = new OAuth('client_id', 'client_secret', 'redirect_uri', function (uid, callback) {
   // 传入一个根据 `uid` 获取对应的全局 token 的方法
   // 在 getUser 时会通过该方法来获取token
   fs.readFile(uid +':access_token.txt', 'utf8', function (err, txt) {
