@@ -44,7 +44,7 @@ describe('oauth.js', function () {
   })
 
   describe('getAccessToken', function () {
-    var api = new OAuth(config.appid, config.appsecret)
+    var api = new OAuth(config.client_id, config.client_secret)
     it('should invalid', function (done) {
       api.getAccessToken('code', function (err, data) {
         expect(err).to.be.ok()

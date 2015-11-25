@@ -1,4 +1,4 @@
 module.exports = {
-  appid: '',
-  appsecret: ''
+  client_id: '',
+  client_secret: ''
 };
