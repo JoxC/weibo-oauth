@@ -6,9 +6,9 @@
   "license": "MIT",
   "main": "lib/oauth.js",
   "scripts": {
-    "test": "mocha --reporter spec test",
-    "test-ci": "isparta cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks test",
-    "test-cov": "isparta cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test"
+    "test": "mocha --reporter spec --timeout 40000 test",
+    "test-ci": "isparta cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --timeout 40000 --check-leaks test",
+    "test-cov": "isparta cover node_modules/mocha/bin/_mocha -- --reporter dot --timeout 40000 --check-leaks test"
   },
   "repository": "github:fundon/weibo-oauth",
   "keywords": [
@@ -18,7 +18,7 @@
     "oauth2"
   ],
   "dependencies": {
-    "urllib": "2.0.2"
+    "urllib": "^2.5.0"
   },
   "devDependencies": {
     "expect.js": "*",
