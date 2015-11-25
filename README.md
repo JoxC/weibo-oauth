@@ -46,25 +46,25 @@ const client = new OAuth('client_id', 'client_secret', 'redirect_uri', function 
   fs.readFile(uid +':access_token.txt', 'utf8', function (err, txt) {
     if (err) { return callback(err) }
     callback(null, JSON.parse(txt))
-  });
+  })
 }, function (uid, token, callback) {
   // 请将 token 存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis 等
   // 这样才能在 cluster 模式及多机情况下使用，以下为写入到文件的示例
   // 持久化时请注意，每个 uid 都对应一个唯一的 token!
-  fs.writeFile(uid + ':access_token.txt', JSON.stringify(token), callback);
-});
+  fs.writeFile(uid + ':access_token.txt', JSON.stringify(token), callback)
+})
 ```
 
 ### 引导用户
 生成引导用户点击的URL。
 
 ```js
-var url = client.getAuthorizeURL('redirectUri', 'state', 'scope');
+const url = client.getAuthorizeURL('redirectUri', 'state', 'scope')
 ```
 
 如果是PC上的网页，请使用以下方式生成
 ```js
-var url = client.getAuthorizeURLForWebsite('redirectUri');
+const url = client.getAuthorizeURLForWebsite('redirectUri')
 ```
 
 ### 获取 uid 和 AccessToken
@@ -75,9 +75,9 @@ var url = client.getAuthorizeURLForWebsite('redirectUri');
 
 ```js
 client.getAccessToken('code', function (err, result) {
-  const accessToken = result.data.access_token;
-  const uid = result.data.uid;
-});
+  const accessToken = result.data.access_token
+  const uid = result.data.uid
+})
 ```
 
 ### 获取用户信息
@@ -86,8 +86,8 @@ client.getAccessToken('code', function (err, result) {
 
 ```js
 client.getUser('uid', function (err, result) {
-  const userInfo = result;
-});
+  const userInfo = result
+})
 ```
 
 [license-url]: LICENSE
