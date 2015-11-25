@@ -1,6 +1,6 @@
 {
   "name": "weibo-oauth",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "微博公共平台 OAuth 2",
   "author": "Fangdun Cai <cfddream@gmail.com>",
   "license": "MIT",
