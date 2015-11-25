@@ -1,7 +1,7 @@
 weibo-oauth
 ===============
 
-微博公共平台 OAuth 接口消息接口服务中间件与 API SDK。
+微博公共平台 OAuth 接口消息接口服务中间件与 API SDK。  
 **NOTE**: Forked from [node-wechat][], thanks to them!
 
 [![NPM version][npm-img]][npm-url]
