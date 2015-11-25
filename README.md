@@ -33,7 +33,7 @@ $ npm install weibo-oauth
 
 ```js
 const OAuth = require('weibo-oauth')
-const client = new OAuth('your appid', 'your secret')
+const client = new OAuth('client_id', 'client_secret', 'redirect_uri')
 ```
 
 以上即可满足单进程使用。
@@ -59,17 +59,17 @@ const client = new OAuth('appid', 'secret', function (uid, callback) {
 生成引导用户点击的URL。
 
 ```js
-var url = client.getAuthorizeURL('redirectUrl', 'state', 'scope');
+var url = client.getAuthorizeURL('redirectUri', 'state', 'scope');
 ```
 
 如果是PC上的网页，请使用以下方式生成
 ```js
-var url = client.getAuthorizeURLForWebsite('redirectUrl');
+var url = client.getAuthorizeURLForWebsite('redirectUri');
 ```
 
 ### 获取 uid 和 AccessToken
 
-用户点击上步生成的URL后会被重定向到上步设置的 `redirectUrl`，
+用户点击上步生成的URL后会被重定向到上步设置的 `redirectUri`，
 并且会带有 `code` 参数，我们可以使用这个 `code`  
 换取 `access_token` 和用户的 `uid`
 
