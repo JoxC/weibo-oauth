@@ -1,36 +1,36 @@
 {
-  "name": "wechat-oauth",
-  "version": "1.1.0",
-  "description": "微信公共平台OAuth",
-  "main": "index.js",
+  "name": "weibo-oauth",
+  "version": "0.0.0",
+  "description": "微博公共平台 OAuth 2",
+  "author": "Fangdun Cai <cfddream@gmail.com>",
+  "license": "MIT",
+  "main": "lib/oauth.js",
   "scripts": {
-    "test": "make test-all"
+    "test": "mocha --reporter spec test",
+    "test-ci": "isparta cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks test",
+    "test-cov": "isparta cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/node-webot/wechat-oauth.git"
-  },
+  "repository": "github:fundon/weibo-oauth",
   "keywords": [
-    "weixin",
-    "wechat"
+    "weibo",
+    "sina",
+    "oauth",
+    "oauth2"
   ],
   "dependencies": {
     "urllib": "2.0.2"
   },
   "devDependencies": {
-    "supertest": "*",
-    "mocha": "*",
     "expect.js": "*",
-    "coveralls": "*",
-    "mocha-lcov-reporter": "*",
+    "isparta": "^4.x",
+    "mocha": "^2.x",
     "muk": "*",
     "rewire": "*",
-    "istanbul": "*"
+    "supertest": "*"
   },
-  "author": "Jackson Tian",
-  "license": "MIT",
-  "readmeFilename": "README.md",
-  "directories": {
-    "test": "test"
-  }
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib"
+  ]
 }

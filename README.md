@@ -1,55 +1,57 @@
-wechat-oauth
+weibo-oauth
 ===============
 
-微信公共平台OAuth接口消息接口服务中间件与API SDK
+微博公共平台 OAuth 接口消息接口服务中间件与 API SDK。
+**NOTE**: Forked from [node-wechat][], thanks to them!
 
-## 模块状态
-
-- [![NPM version](https://badge.fury.io/js/wechat-oauth.png)](http://badge.fury.io/js/wechat-oauth)
-- [![Build Status](https://travis-ci.org/node-webot/wechat-oauth.png?branch=master)](https://travis-ci.org/node-webot/wechat-oauth)
-- [![Dependencies Status](https://david-dm.org/node-webot/wechat-oauth.png)](https://david-dm.org/node-webot/wechat-oauth)
-- [![Coverage Status](https://coveralls.io/repos/node-webot/wechat-oauth/badge.png)](https://coveralls.io/r/node-webot/wechat-oauth)
+[![NPM version][npm-img]][npm-url]
+[![NPM Downloads][downloads-image]][npm-url]
+[![Build status][travis-img]][travis-url]
+[![Test coverage][coveralls-img]][coveralls-url]
+[![Dependency status][david-img]][david-url]
+[![License][license-img]][license-url]
 
 ## 功能列表
+
 - OAuth授权
 - 获取基本信息
 
-OAuth2.0网页授权，使用此接口须通过微信认证，如果用户在微信中（Web微信除外）访问公众号的第三方网页，公众号开发者可以通过此接口获取当前用户基本信息（包括昵称、性别、城市、国家）。详见：[官方文档](http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息)
+OAuth 2.0 网页授权，使用此接口须通过微博认证。详见：[open weibo][]
 
-详细参见[API文档](http://doxmate.cool/node-webot/wechat-oauth/api.html)
 
 ## Installation
 
 ```sh
-$ npm install wechat-oauth
+$ npm install weibo-oauth
 ```
 
 ## Usage
 
 ### 初始化
-引入OAuth并实例化
+
+引入 OAuth 并实例化
 
 ```js
-var OAuth = require('wechat-oauth');
-var client = new OAuth('your appid', 'your secret');
+const OAuth = require('weibo-oauth')
+const client = new OAuth('your appid', 'your secret')
 ```
 
 以上即可满足单进程使用。
 当多进程时，token需要全局维护，以下为保存token的接口。
 
 ```js
-var oauthApi = new OAuth('appid', 'secret', function (openid, callback) {
-  // 传入一个根据openid获取对应的全局token的方法
-  // 在getUser时会通过该方法来获取token
-  fs.readFile(openid +':access_token.txt', 'utf8', function (err, txt) {
-    if (err) {return callback(err);}
-    callback(null, JSON.parse(txt));
+const client = new OAuth('appid', 'secret', function (uid, callback) {
+  // 传入一个根据 `uid` 获取对应的全局 token 的方法
+  // 在 getUser 时会通过该方法来获取token
+  fs.readFile(uid +':access_token.txt', 'utf8', function (err, txt) {
+    if (err) { return callback(err) }
+    callback(null, JSON.parse(txt))
   });
-}, function (openid, token, callback) {
-  // 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
-  // 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
-  // 持久化时请注意，每个openid都对应一个唯一的token!
-  fs.writeFile(openid + ':access_token.txt', JSON.stringify(token), callback);
+}, function (uid, token, callback) {
+  // 请将 token 存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis 等
+  // 这样才能在 cluster 模式及多机情况下使用，以下为写入到文件的示例
+  // 持久化时请注意，每个 uid 都对应一个唯一的 token!
+  fs.writeFile(uid + ':access_token.txt', JSON.stringify(token), callback);
 });
 ```
 
@@ -65,51 +67,39 @@ var url = client.getAuthorizeURL('redirectUrl', 'state', 'scope');
 var url = client.getAuthorizeURLForWebsite('redirectUrl');
 ```
 
-### 获取Openid和AccessToken
-用户点击上步生成的URL后会被重定向到上步设置的 `redirectUrl`，并且会带有`code`参数，我们可以使用这个`code`换取`access_token`和用户的`openid`
+### 获取 uid 和 AccessToken
+
+用户点击上步生成的URL后会被重定向到上步设置的 `redirectUrl`，
+并且会带有 `code` 参数，我们可以使用这个 `code`  
+换取 `access_token` 和用户的 `uid`
 
 ```js
 client.getAccessToken('code', function (err, result) {
-  var accessToken = result.data.access_token;
-  var openid = result.data.openid;
+  const accessToken = result.data.access_token;
+  const uid = result.data.uid;
 });
 ```
 
 ### 获取用户信息
-如果我们生成引导用户点击的URL中`scope`参数值为`snsapi_userinfo`，接下来我们就可以使用`openid`换取用户详细信息（必须在getAccessToken方法执行完成之后）
+如果我们生成引导用户点击的URL中 `scope` 参数值为 `users_show`，
+接下来我们就可以使用 `uid` 换取用户详细信息（必须在 getAccessToken 方法执行完成之后）
 
 ```js
-client.getUser('openid', function (err, result) {
-  var userInfo = result;
+client.getUser('uid', function (err, result) {
+  const userInfo = result;
 });
 ```
 
-## 捐赠
-如果您觉得Wechat OAuth对您有帮助，欢迎请作者一杯咖啡
-
-![捐赠wechat](https://cloud.githubusercontent.com/assets/327019/2941591/2b9e5e58-d9a7-11e3-9e80-c25aba0a48a1.png)
-
-或者[![](http://img.shields.io/gratipay/JacksonTian.svg)](https://www.gittip.com/JacksonTian/)
-
-## 交流群
-QQ群：157964097，使用疑问，开发，贡献代码请加群。
-
-## Contributors
-感谢以下贡献者：
-
-```
-$ git summary
-
- project  : wechat-oauth
- repo age : 3 months
- active   : 3 days
- commits  : 9
- files    : 12
- authors  :
-     8  Jackson Tian  88.9%
-     1  Teng Fei      11.1%
-
-```
-
-## License
-The MIT license.
+[license-url]: LICENSE
+[open weibo]: http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI
+[npm-img]: https://img.shields.io/npm/v/weibo-oauth.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/weibo-oauth
+[travis-img]: https://img.shields.io/travis/fundon/weibo-oauth.svg?style=flat-square
+[travis-url]: https://travis-ci.org/fundon/weibo-oauth
+[coveralls-img]: https://img.shields.io/coveralls/fundon/weibo-oauth.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/fundon/weibo-oauth?branch=master
+[license-img]: https://img.shields.io/badge/license-MIT-green.svg?style=flat-square
+[david-img]: https://img.shields.io/david/fundon/weibo-oauth.svg?style=flat-square
+[david-url]: https://david-dm.org/fundon/weibo-oauth
+[downloads-image]: https://img.shields.io/npm/dm/weibo-oauth.svg?style=flat-square
+[node-wechat]: https://github.com/node-webot/wechat-oauth
