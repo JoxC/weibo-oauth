@@ -49,7 +49,7 @@ describe('oauth.js', function () {
       api.getAccessToken('code', function (err, data) {
         expect(err).to.be.ok()
         expect(err.name).to.be.equal('WeiboAPIError')
-        expect(err.message).to.contain('HTTP METHOD is not suported for this request!')
+        expect(err.message).to.contain('invalid_request')
         done()
       })
     })
